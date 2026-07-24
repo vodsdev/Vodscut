@@ -6,139 +6,305 @@
   <title>Lueur Analytique | Dashboard</title>
   <style>
     :root {
-      --bg: #0a0a0a;
-      --surface: #141414;
-      --border: #262626;
-      --text: #e5e5e5;
-      --text-muted: #a3a3a3;
-      --accent: #3b82f6;
-      --accent-hover: #2563eb;
-      --success: #22c55e;
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #e0e0e0;
+      --text-muted: #888;
+      --accent: #6c8cff;
+      --accent-hover: #809fff;
+      --success: #4caf50;
+      --danger: #ff5252;
     }
+    
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.5;
+      line-height: 1.6;
       padding: 2rem;
+      min-height: 100vh;
     }
+    
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
     }
+    
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
-    h1 { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+    
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #fff;
+    }
+    
+    .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--success);
+      font-weight: 500;
+    }
+    
     .live-dot {
-      width: 10px; height: 10px; background: var(--success); border-radius: 50%;
-      box-shadow: 0 0 8px var(--success);
-      animation: pulse 2s infinite;
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
     }
-    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+    
+    @keyframes pulse {
+      0% { opacity: 1; box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+      70% { opacity: 0.5; box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+      100% { opacity: 1; box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+    }
     
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 1.5rem;
       margin-bottom: 1.5rem;
+      transition: transform 0.2s ease;
     }
-    .card-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: #fff; }
     
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
     
-    label { display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    
     input, select {
-      width: 100%; background: #1f1f1f; border: 1px solid var(--border);
-      color: #fff; padding: 0.625rem; border-radius: 8px; font-size: 0.875rem;
+      width: 100%;
+      background: #252525;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      outline: none;
       transition: border-color 0.2s;
     }
-    input:focus, select:focus { border-color: var(--accent); outline: none; }
+    
+    input:focus, select:focus {
+      border-color: var(--accent);
+    }
     
     button {
-      background: var(--accent); color: #fff; border: none; padding: 0.625rem 1.25rem;
-      border-radius: 8px; font-size: 0.875rem; font-weight: 500; cursor: pointer;
-      transition: background 0.2s;
-    }
-    button:hover { background: var(--accent-hover); }
-    button.secondary { background: #262626; }
-    button.secondary:hover { background: #333; }
-
-    .stat-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 0.75rem 0; border-bottom: 1px solid var(--border);
-    }
-    .stat-row:last-child { border-bottom: none; }
-    .url { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-muted); }
-    .badges { display: flex; gap: 0.75rem; }
-    .badge {
-      display: flex; align-items: center; gap: 0.3rem;
-      background: #1a1a1a; padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.75rem;
-    }
-
-    .tag-box {
-      background: #000; padding: 1rem; border-radius: 8px; font-family: monospace;
-      font-size: 0.8rem; color: #60a5fa; overflow-x: auto; margin: 1rem 0;
-      border: 1px solid #1e3a8a;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
     
-    .empty-state { text-align: center; color: var(--text-muted); padding: 2rem; }
+    button:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+    
+    button.secondary {
+      background: #333;
+    }
+    
+    button.secondary:hover {
+      background: #444;
+    }
+    
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+    
+    .url-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      max-width: 70%;
+    }
+    
+    .url-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+      word-break: break-all;
+    }
+    
+    .badges {
+      display: flex;
+      gap: 0.75rem;
+    }
+    
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #252525;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .tag-container {
+      margin-top: 1rem;
+    }
+    
+    .tag-box {
+      background: #000;
+      padding: 1.25rem;
+      border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #60a5fa;
+      overflow-x: auto;
+      border: 1px solid #1e3a8a;
+      margin: 1rem 0;
+      position: relative;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+    }
+    
+    .notification {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      transform: translateY(200%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .notification.show {
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1><span class="live-dot"></span> Lueur Analytique</h1>
-      <div id="status">Connecté</div>
+      <h1>📊 Lueur Analytique</h1>
+      <div class="live-indicator">
+        <div class="live-dot"></div>
+        Direct
+      </div>
     </header>
 
     <div class="grid">
-      <!-- Création de site -->
+      <!-- Configuration du site -->
       <div class="card">
-        <h3 class="card-title">Ajouter un site</h3>
+        <div class="card-header">
+          <h3 class="card-title">Ajouter un site</h3>
+        </div>
         <form id="addSiteForm">
-          <label>Nom du site</label>
-          <div style="display: flex; gap: 0.5rem;">
-            <input type="text" id="siteName" placeholder="Ex: Mon Blog" required>
-            <button type="submit">Créer</button>
+          <div class="form-group">
+            <label for="siteName">Nom du projet</label>
+            <input type="text" id="siteName" placeholder="Ex: Mon Portfolio" required>
           </div>
+          <button type="submit">🚀 Créer le projet</button>
         </form>
       </div>
 
-      <!-- Sélection de site -->
+      <!-- Sélecteur de projet -->
       <div class="card">
-        <h3 class="card-title">Choisir un site</h3>
-        <label>Site actif</label>
-        <select id="siteSelect">
-          <option value="">Chargement...</option>
-        </select>
+        <div class="card-header">
+          <h3 class="card-title">Projet actif</h3>
+        </div>
+        <div class="form-group">
+          <label for="siteSelect">Sélectionner un site à monitorer</label>
+          <select id="siteSelect">
+            <option value="">Chargement des sites...</option>
+          </select>
+        </div>
+        <button class="secondary" id="refreshBtn">🔄 Actualiser</button>
       </div>
     </div>
 
-    <!-- Statistiques -->
+    <!-- Statistiques en temps réel -->
     <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <h3 class="card-title" style="margin-bottom: 0;">Statistiques en direct</h3>
-        <button class="secondary" id="refreshBtn">Actualiser</button>
+      <div class="card-header">
+        <h3 class="card-title">Statistiques de fréquentation</h3>
       </div>
       <div id="statsContent">
-        <div class="empty-state">Sélectionnez un site pour voir les données.</div>
+        <div class="empty-state">
+          Veuillez sélectionner un site pour visualiser les statistiques en temps réel.
+        </div>
       </div>
     </div>
 
-    <!-- Intégration -->
+    <!-- Script d'intégration -->
     <div class="card" id="integrationCard" style="display: none;">
-      <h3 class="card-title">Code d'intégration</h3>
-      <p style="font-size: 0.875rem; color: var(--text-muted);">Copiez ce script dans la balise &lt;head&gt; de votre site :</p>
+      <div class="card-header">
+        <h3 class="card-title">Intégration du tracker</h3>
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-muted);">
+        Insérez ce script dans la balise <code>&lt;head&gt;</code> de votre site web pour commencer la collecte.
+      </p>
       <div class="tag-box" id="tagCode"></div>
-      <button id="copyBtn">Copier le code</button>
+      <button id="copyBtn">📋 Copier le code</button>
     </div>
   </div>
+
+  <div id="notification" class="notification">Action effectuée avec succès !</div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script>
@@ -148,67 +314,89 @@
     const addSiteForm = document.getElementById('addSiteForm');
     const integrationCard = document.getElementById('integrationCard');
     const tagCode = document.getElementById('tagCode');
+    const notification = document.getElementById('notification');
     
     let currentSiteKey = null;
 
+    function showNotification(text) {
+      notification.textContent = text;
+      notification.classList.add('show');
+      setTimeout(() => notification.classList.remove('show'), 3000);
+    }
+
     async function fetchSites() {
-      const res = await fetch('/api/sites');
-      const sites = await res.json();
-      siteSelect.innerHTML = '<option value="">-- Sélectionner --</option>';
-      sites.forEach(site => {
-        const opt = document.createElement('option');
-        opt.value = site.site_key;
-        opt.textContent = site.name;
-        siteSelect.appendChild(opt);
-      });
-      if (currentSiteKey) siteSelect.value = currentSiteKey;
+      try {
+        const res = await fetch('/api/sites');
+        const sites = await res.json();
+        siteSelect.innerHTML = '<option value="">-- Sélectionner un projet --</option>';
+        sites.forEach(site => {
+          const opt = document.createElement('option');
+          opt.value = site.site_key;
+          opt.textContent = site.name || site.site_key;
+          siteSelect.appendChild(opt);
+        });
+        if (currentSiteKey) siteSelect.value = currentSiteKey;
+      } catch (e) {
+        console.error('Erreur lors du chargement des sites');
+      }
     }
 
     async function fetchStats() {
       if (!currentSiteKey) return;
-      const res = await fetch(`/api/stats/${currentSiteKey}`);
-      const data = await res.json();
-      
-      if (data.views.length === 0 && data.clicks.length === 0) {
-        statsContent.innerHTML = '<div class="empty-state">Aucune donnée reçue pour le moment.</div>';
-        return;
-      }
+      try {
+        const res = await fetch(`/api/stats/${currentSiteKey}`);
+        const data = await res.json();
+        
+        if (data.views.length === 0 && data.clicks.length === 0) {
+          statsContent.innerHTML = '<div class="empty-state">En attente de données... Déployez le script pour voir les premiers résultats.</div>';
+          return;
+        }
 
-      const map = {};
-      data.views.forEach(v => map[v.url] = { views: v.count, clicks: 0 });
-      data.clicks.forEach(c => {
-        if (!map[c.url]) map[c.url] = { views: 0, clicks: 0 };
-        map[c.url].clicks = c.count;
-      });
+        const map = {};
+        data.views.forEach(v => map[v.url] = { views: v.count, clicks: 0 });
+        data.clicks.forEach(c => {
+          if (!map[c.url]) map[c.url] = { views: 0, clicks: 0 };
+          map[c.url].clicks = c.count;
+        });
 
-      let html = '';
-      for (const [url, stats] of Object.entries(map)) {
-        html += `
-          <div class="stat-row">
-            <div class="url">${url}</div>
-            <div class="badges">
-              <div class="badge">👁️ ${stats.views}</div>
-              <div class="badge">👆 ${stats.clicks}</div>
+        let html = '';
+        for (const [url, stats] of Object.entries(map)) {
+          html += `
+            <div class="stat-row">
+              <div class="url-info">
+                <span class="url-text">${url}</span>
+              </div>
+              <div class="badges">
+                <div class="badge">👁️ ${stats.views} vues</div>
+                <div class="badge">👆 ${stats.clicks} clics</div>
+              </div>
             </div>
-          </div>
-        `;
+          `;
+        }
+        statsContent.innerHTML = html;
+      } catch (e) {
+        console.error('Erreur lors du chargement des stats');
       }
-      statsContent.innerHTML = html;
     }
 
     addSiteForm.onsubmit = async (e) => {
       e.preventDefault();
       const name = document.getElementById('siteName').value;
-      const res = await fetch('/api/sites', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name })
-      });
-      const data = await res.json();
-      document.getElementById('siteName').value = '';
-      await fetchSites();
-      siteSelect.value = data.site_key;
-      siteSelect.dispatchEvent(new Event('change'));
+      try {
+        const res = await fetch('/api/sites', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name })
+        });
+        const data = await res.json();
+        document.getElementById('siteName').value = '';
+        showNotification('Projet "' + name + '" créé avec succès !');
+        await fetchSites();
+        siteSelect.value = data.site_key;
+        siteSelect.dispatchEvent(new Event('change'));
+      } catch (e) {
+        showNotification('Erreur lors de la création du projet');
+      }
     };
 
     siteSelect.onchange = () => {
@@ -220,25 +408,28 @@
         fetchStats();
       } else {
         integrationCard.style.display = 'none';
-        statsContent.innerHTML = '<div class="empty-state">Sélectionnez un site pour voir les données.</div>';
+        statsContent.innerHTML = '<div class="empty-state">Veuillez sélectionner un site pour visualiser les statistiques en temps réel.</div>';
       }
     };
 
-    document.getElementById('refreshBtn').onclick = fetchStats;
+    document.getElementById('refreshBtn').onclick = () => {
+      fetchStats();
+      showNotification('Données actualisées');
+    };
     
     document.getElementById('copyBtn').onclick = () => {
       navigator.clipboard.writeText(tagCode.textContent);
-      const btn = document.getElementById('copyBtn');
-      btn.textContent = 'Copié !';
-      setTimeout(() => btn.textContent = 'Copier le code', 2000);
+      showNotification('Code copié dans le presse-papier !');
     };
 
+    // Écoute des événements temps réel
     socket.on('new_event', (data) => {
       if (data.site_key === currentSiteKey) {
         fetchStats();
       }
     });
 
+    // Initialisation
     fetchSites();
   </script>
 </body>
