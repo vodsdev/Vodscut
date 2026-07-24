@@ -1,47 +1,54 @@
-# ✨ Lueur Analytique
+# 🚀 Vodscut : Solution d'Analyse de Trafic Web en Temps Réel
 
-Une solution d'analytics **temps réel**, élégante et auto-hébergée pour vos projets web.
+**Vodscut** est une plateforme d'analyse de trafic web conçue pour les entreprises, offrant une visibilité instantanée sur l'engagement des utilisateurs. Cette solution auto-hébergée fournit des données de vues de pages et de clics en temps réel, présentées via un tableau de bord intuitif et sécurisé.
 
-**Lueur Analytique** offre une alternative minimaliste aux solutions complexes. Suivez vos visiteurs et leurs interactions en direct sur un dashboard moderne au design "soft black".
+## ✨ Avantages Clés pour l'Entreprise
 
-## 🚀 Points Forts
+- **Analyse en Temps Réel** : Suivez les interactions des utilisateurs (vues, clics) au moment où elles se produisent, permettant des réactions rapides et informées.
+- **Souveraineté des Données** : Toutes les données sont stockées localement sur votre infrastructure (SQLite), garantissant une conformité totale avec les réglementations de confidentialité (ex: RGPD) et une maîtrise complète de vos informations.
+- **Performance Optimale** : Le script de tracking est ultra-léger et utilise des technologies modernes comme `navigator.sendBeacon` pour minimiser l'impact sur les performances de votre site web.
+- **Tableau de Bord Professionnel** : Une interface utilisateur épurée et ergonomique, avec un thème sombre, conçue pour une lecture claire et une prise de décision efficace.
+- **Gestion Multi-Projets** : Centralisez l'analyse de plusieurs sites web ou applications au sein d'une seule instance Vodscut.
+- **Extensibilité** : Une architecture modulaire basée sur Node.js, Express et Socket.IO, facilitant l'intégration avec d'autres systèmes et l'ajout de fonctionnalités personnalisées.
 
-- **⚡ Temps Réel Absolu** : Visualisez chaque vue et chaque clic à la seconde près via WebSockets.
-- **🛡️ Confidentialité** : Vos données sont stockées localement dans une base SQLite. Pas de tiers, pas de cookies intrusifs.
-- **📉 Performance** : Script de tracking ultra-léger (< 1ko) utilisant `navigator.sendBeacon` pour ne pas ralentir la navigation.
-- **🎨 Design Soft Black** : Interface sombre soignée, optimisée pour le monitoring prolongé sans fatigue visuelle.
+## 🛠️ Stack Technologique
 
-## 🛠️ Stack Technique
+- **Backend** : Node.js, Express.js
+- **Communication Temps Réel** : Socket.IO (WebSockets)
+- **Base de Données** : SQLite (fichier local, haute performance et faible maintenance)
+- **Frontend** : HTML5, CSS3 (Vanilla), JavaScript (Vanilla)
 
-- **Backend** : Node.js, Express
-- **Temps Réel** : Socket.IO
-- **Base de Données** : SQLite (`better-sqlite3`)
-- **Frontend** : HTML5, CSS3 (Variables), JS Vanilla
-
-## 📦 Installation & Lancement
+## 📦 Installation et Déploiement
 
 ### 1. Prérequis
-- Node.js (v14+)
-- npm ou pnpm
+- Node.js (version 14 ou supérieure)
+- npm (Node Package Manager)
 
-### 2. Installation
+### 2. Démarrage Rapide
+
+Clonez le dépôt Vodscut :
 ```bash
-git clone https://github.com/votre-username/lueur-analytique.git
-cd lueur-analytique
+git clone https://github.com/vodsdev/Vodscut.git
+cd Vodscut
+```
+
+Installez les dépendances :
+```bash
 npm install
 ```
 
-### 3. Démarrage
+Lancez le serveur :
 ```bash
 npm start
 ```
-Le dashboard est disponible sur `http://localhost:3000`.
 
-## 📈 Guide d'Intégration
+Le tableau de bord sera accessible via votre navigateur à l'adresse `http://localhost:3000`.
 
-1. Créez un projet depuis le dashboard pour obtenir votre `site_key`.
-2. Copiez le script d'intégration fourni.
-3. Collez-le dans la section `<head>` de votre site :
+## 📈 Intégration de Vos Projets Web
+
+1. **Création d'un Projet** : Accédez au tableau de bord Vodscut et utilisez l'interface pour enregistrer un nouveau projet. Une `site_key` unique vous sera attribuée.
+2. **Intégration du Script** : Copiez le fragment de code JavaScript fourni par le tableau de bord.
+3. **Déploiement sur Votre Site** : Insérez ce script dans la section `<head>` de chaque page de votre site web que vous souhaitez monitorer. Assurez-vous de remplacer `votre-domaine.com` par l'URL de votre instance Vodscut et `site_votre_cle_unique` par la `site_key` générée.
 
 ```html
 <script 
@@ -50,13 +57,23 @@ Le dashboard est disponible sur `http://localhost:3000`.
 </script>
 ```
 
-## 📂 Architecture
+## 📂 Structure du Projet
 
-- `server.js` : Point d'entrée, gestion des routes API et des connexions WebSocket.
-- `db.js` : Initialisation et schéma de la base de données.
-- `public/` : Fichiers statiques du dashboard et du tracker.
-- `analytics.db` : Fichier de base de données généré automatiquement.
+```
+Vodscut/
+├── server.js           # Serveur principal (API REST & Socket.IO)
+├── db.js               # Configuration et initialisation de la base de données SQLite
+├── package.json        # Métadonnées et dépendances du projet
+├── .gitignore          # Fichiers et dossiers à ignorer par Git
+└── public/
+    ├── index.html      # Tableau de bord d'administration
+    └── tracker.js      # Script de tracking client
+```
 
-## 📝 Licence
+## 🤝 Contribution
 
-Projet distribué sous licence MIT. Développé avec passion pour le web ouvert.
+Les contributions sont les bienvenues ! N'hésitez pas à soumettre des issues ou des pull requests pour améliorer Vodscut.
+
+## ⚖️ Licence
+
+Ce projet est distribué sous la licence MIT. Voir le fichier `LICENSE` pour plus de détails.

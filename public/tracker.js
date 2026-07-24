@@ -7,7 +7,7 @@
   const siteKey = scriptTag.getAttribute('data-site-key');
   
   if (!siteKey) {
-    console.warn('[Lueur Analytique] data-site-key manquant. Le tracking est désactivé.');
+    console.warn('[Vodscut] data-site-key manquant. Le tracking est désactivé.');
     return;
   }
 
@@ -57,5 +57,5 @@
     }
   }, true);
 
-  console.log('[Lueur Analytique] Tracking activé pour:', siteKey);
+  console.log('[Vodscut] Tracking activé pour:', siteKey);
 })();

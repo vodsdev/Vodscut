@@ -1,5 +1,5 @@
 {
-  "name": "lueur-analytique",
+  "name": "vodscut",
   "version": "1.0.0",
   "description": "Une API d'analytics temps réel élégante et légère.",
   "main": "server.js",
